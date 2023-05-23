@@ -16,7 +16,7 @@ class Tasks {
     }
 
     async deleteTask(id){
-        return Tasks.Database.query('DELETE FROM tasks WHERE task_id = $1', [id]);
+        return Tasks.Database.query('DELETE FROM tasks WHERE task_id = $1 RETURNING *', [id]);
     }
 }
 

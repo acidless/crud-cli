@@ -27,7 +27,11 @@ yargs(hideBin(process.argv))
             })
     }, async (argv) => {
         const data = await new Tasks().updateTask(argv.id, argv.task)
-        console.log(data.rows[0]);
+        if(data.rows[0]){
+            console.log(data.rows[0]);
+        }else{
+            console.log(`There is no task with this id!`);
+        }
     })
     .command('delete [id]', 'Delete task', (yargs) => {
         return yargs
@@ -35,8 +39,12 @@ yargs(hideBin(process.argv))
                 describe: 'Task id',
             })
     }, async (argv) => {
-        await new Tasks().deleteTask(argv.id);
-        console.log(`Task with id ${argv.id} deleted!`);
+        const task = await new Tasks().deleteTask(argv.id);
+        if(task.rows[0]) {
+            console.log(`Task with id ${argv.id} deleted!`);
+        } else{
+            console.log(`There is no task with this id!`);
+        }
     })
     .parse()
 

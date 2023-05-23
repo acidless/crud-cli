@@ -14,13 +14,18 @@ class Database {
     }
 
     async query(query, ...args){
-        if(!this.client.connected){
-            await this.connect();
-        }
+        try{
+            if(!this.client.connected){
+                await this.connect();
+            }
 
-        const result = await this.client.query(query, ...args);
-        await this.client.end();
-        return result;
+            const result = await this.client.query(query, ...args);
+            await this.client.end();
+            return result;
+        }
+        catch(e){
+            console.log(`Error: ${e.message}`);
+        }
     }
 }
 
